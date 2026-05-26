@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WX 26 — Worship Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'EB Garamond', Georgia, serif;
+    background: #FAF8F4;
+    color: #1C1A16;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* ── Tab Nav ── */
+  .tab-nav {
+    display: flex;
+    background: #1C1A16;
+    padding: 0 24px;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .tab-btn {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 14px;
+    color: #9A948A;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 14px 20px 11px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .tab-btn:hover { color: #E8E3DA; }
+  .tab-btn.active { color: #FAF8F4; border-bottom-color: #C07818; }
+
+  /* ── Tab Panels ── */
+  .tab-panel { display: none; padding: 32px 24px 60px; max-width: 820px; margin: 0 auto; }
+  .tab-panel.active { display: block; }
+
+  /* ── Shared header ── */
+  .doc-header { border-bottom: 2px solid #1C1A16; padding-bottom: 16px; margin-bottom: 24px; }
+  .doc-title { font-family: 'Playfair Display', Georgia, serif; font-size: 26px; font-weight: 700; color: #1C1A16; line-height: 1.2; }
+  .doc-meta { font-size: 14px; color: #6B6660; margin-top: 5px; font-style: italic; }
+
+  /* ── Progress bar ── */
+  .progress-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; gap: 3px; margin-bottom: 10px; }
+  .progress-bar span { border-radius: 3px; cursor: pointer; transition: opacity 0.2s; }
+  .progress-bar span:hover { opacity: 0.75; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 28px; }
+  .legend-item { font-size: 13px; display: flex; align-items: center; gap: 6px; cursor: pointer; text-decoration: none; }
+  .legend-item:hover { text-decoration: underline; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
+  /* ── Arrow ── */
+  .arrow { text-align: center; font-size: 36px; color: #B0A99E; margin: 4px 0; line-height: 1; }
+
+  /* ── Phase card ── */
+  .phase-card {
+    border: 1.5px solid #D8D2C8;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    background: #FFFFFF;
+    scroll-margin-top: 60px;
+    transition: box-shadow 0.3s;
+  }
+  .phase-card.highlight {
+    box-shadow: 0 0 0 3px #C07818;
+  }
+  .phase-top { padding: 18px 22px 14px; border-bottom: 1px solid #E8E3DA; }
+  .phase-header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .phase-header-left { display: flex; align-items: flex-start; gap: 12px; }
+  .phase-badge { font-family: 'Playfair Display', Georgia, serif; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 0.06em; white-space: nowrap; text-transform: uppercase; margin-top: 3px; flex-shrink: 0; }
+  .phase-title-block {}
+  .phase-number-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.65; margin-bottom: 1px; }
+  .phase-title { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; font-weight: 700; color: #1C1A16; line-height: 1.15; }
+  .phase-theme { font-family: 'Playfair Display', Georgia, serif; font-size: 14px; font-weight: 600; color: #1C1A16; margin-top: 2px; opacity: 0.7; font-style: italic; }
+  .phase-subtitle { font-size: 12px; color: #8A8278; margin-top: 3px; font-style: italic; }
+  .phase-time { text-align: right; flex-shrink: 0; }
+  .time-range { font-family: 'Playfair Display', Georgia, serif; font-size: 17px; font-weight: 700; line-height: 1.2; }
+  .time-pct { font-size: 12px; color: #8A8278; margin-top: 2px; font-style: italic; }
+
+  /* ── Aim box ── */
+  .aim-box { border-radius: 7px; padding: 13px 15px; font-size: 15px; line-height: 1.75; }
+  .aim-theology { font-style: italic; color: inherit; }
+  .aim-divider { border: none; border-top: 1px dashed; margin: 10px 0; opacity: 0.35; }
+  .aim-musical { font-size: 15px; line-height: 1.7; }
+  .aim-musical strong { font-weight: 700; }
+
+  /* ── Segments ── */
+  .segments-area { padding: 0 22px 8px; }
+  .seg { display: flex; align-items: flex-start; gap: 12px; padding: 13px 0; border-top: 1px solid #EDE8E0; }
+  .seg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 7px; }
+  .seg-body { flex: 1; }
+  .seg-title-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; }
+  .seg-label { font-family: 'Playfair Display', Georgia, serif; font-size: 16px; font-weight: 700; color: #1C1A16; }
+  .seg-tag { font-size: 12px; font-weight: 600; font-family: 'EB Garamond', Georgia, serif; padding: 2px 9px; border-radius: 20px; }
+  .seg-bullets { list-style: none; margin-top: 6px; }
+  .seg-bullets li { font-size: 15px; color: #5A544C; line-height: 1.65; display: flex; align-items: baseline; gap: 7px; }
+  .seg-bullets li::before { content: "·"; font-size: 18px; color: #B0A99E; flex-shrink: 0; line-height: 1; }
+
+  /* ── Footer ── */
+  .doc-footer { margin-top: 28px; border-top: 1px solid #D8D2C8; padding-top: 14px; font-size: 13px; color: #9A948A; text-align: center; font-style: italic; }
+
+  /* ── Colors ── */
+  .p1-badge { background: #DDEEFF; color: #0A3A6E; }
+  .p1-aim   { background: #EDF5FF; color: #0A3A6E; }
+  .p1-time  { color: #1060A8; }
+  .p1-dot   { background: #3A82CC; }
+  .p1-tag   { background: #DDEEFF; color: #0A3A6E; }
+  .p1-number { color: #3A82CC; }
+
+  .p2-badge { background: #FAE8C8; color: #5C3306; }
+  .p2-aim   { background: #FDF2E0; color: #5C3306; }
+  .p2-time  { color: #7A4A0A; }
+  .p2-dot   { background: #C07818; }
+  .p2-tag   { background: #FAE8C8; color: #5C3306; }
+  .p2-number { color: #C07818; }
+
+  .p3-badge { background: #D4F0E5; color: #074035; }
+  .p3-aim   { background: #E6F8F0; color: #074035; }
+  .p3-time  { color: #0C6045; }
+  .p3-dot   { background: #1A9E72; }
+  .p3-tag   { background: #D4F0E5; color: #074035; }
+  .p3-number { color: #1A9E72; }
+
+  .p4-badge { background: #FAE2D8; color: #641E0A; }
+  .p4-aim   { background: #FDF0EA; color: #641E0A; }
+  .p4-time  { color: #8A3018; }
+  .p4-dot   { background: #D0522A; }
+  .p4-tag   { background: #FAE2D8; color: #641E0A; }
+  .p4-number { color: #D0522A; }
+
+  /* ── First Draft: compact two-column ── */
+  .phase-group { margin-bottom: 28px; }
+  .phase-group-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .phase-group-count { font-family: 'EB Garamond', Georgia, serif; font-size: 12px; font-weight: 400; font-style: italic; opacity: 0.75; }
+  .phase-group-sub { font-family: 'EB Garamond', Georgia, serif; font-size: 12px; font-style: italic; opacity: 0.7; margin-left: auto; }
+
+  .two-col-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 12px; }
+  .song-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 5px 8px;
+    border-bottom: 1px solid #EDE8E0;
+    cursor: default;
+  }
+  .song-row:hover { background: #FAF8F4; border-radius: 4px; }
+  .s-num { font-size: 11px; color: #B0A99E; width: 18px; flex-shrink: 0; text-align: right; }
+  .s-info { flex: 1; min-width: 0; }
+  .s-title { font-family: 'Playfair Display', Georgia, serif; font-size: 13px; font-weight: 600; color: #1C1A16; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .s-artist { font-size: 11px; color: #8A8278; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .s-score { font-family: 'Playfair Display', Georgia, serif; font-size: 13px; font-weight: 700; flex-shrink: 0; white-space: nowrap; }
+
+  /* ── DQ table ── */
+  .two-col-dq { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 12px; }
+  .dq-row { display: flex; align-items: baseline; gap: 6px; padding: 5px 8px; border-bottom: 1px solid #EDE8E0; }
+  .dq-row:hover { background: #FAF8F4; border-radius: 4px; }
+  .dq-num { font-size: 11px; color: #B0A99E; width: 18px; flex-shrink: 0; text-align: right; }
+  .dq-info { flex: 1; min-width: 0; }
+  .dq-title { font-family: 'Playfair Display', Georgia, serif; font-size: 13px; font-weight: 600; color: #1C1A16; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .dq-artist { font-size: 11px; color: #8A8278; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  .dq-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; background: #F5E8E8; color: #8A1C1C; flex-shrink: 0; }
+
+  .section-note { font-size: 12px; color: #8A8278; font-style: italic; margin-top: 6px; padding-left: 4px; }
+
+  /* ── Clickable phase title ── */
+  .phase-title-link {
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .phase-title-link:hover { opacity: 0.7; }
+  .title-link-icon {
+    font-size: 12px;
+    vertical-align: super;
+    opacity: 0.5;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-weight: 400;
+    margin-left: 2px;
+  }
+
+  /* ── Back to Roadmap button ── */
+  .back-to-roadmap {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 13px;
+    font-style: italic;
+    color: #8A8278;
+    background: none;
+    border: 1px solid #D8D2C8;
+    border-radius: 20px;
+    padding: 5px 14px 5px 10px;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+  .back-to-roadmap:hover {
+    color: #1C1A16;
+    border-color: #B0A99E;
+    background: #FAF8F4;
+  }
+  .back-to-roadmap .btn-arrow { font-size: 16px; font-style: normal; }
+</style>
+</head>
+<body>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('roadmap',this)">Roadmap</button>
+  <button class="tab-btn" onclick="showTab('firstdraft',this)">First Draft</button>
+  <button class="tab-btn" onclick="showTab('dq',this)">Disqualified Songs</button>
+</nav>
+
+
+<!-- ══════════════════════════════════════════
+     TAB 1 — ROADMAP
+════════════════════════════════════════════ -->
+<div id="tab-roadmap" class="tab-panel active">
+
+  <div class="doc-header">
+    <div class="doc-title">WX 26 &mdash; Worship Roadmap</div>
+    <div class="doc-meta">Total duration: 2 hr 30 min &nbsp;&middot;&nbsp; Four phases &nbsp;&middot;&nbsp; Highlights of each phase</div>
+  </div>
+
+  <!-- Progress bar — each segment clickable -->
+  <div class="progress-bar">
+    <span style="width:17%; background:#3A82CC;" data-target="phase1" title="Phase 1 — God Is Good"></span>
+    <span style="width:20%; background:#C07818;" data-target="phase2" title="Phase 2 — God Will Help You"></span>
+    <span style="width:48%; background:#1A9E72;" data-target="phase3" title="Phase 3 — YES!"></span>
+    <span style="width:15%; background:#D0522A;" data-target="phase4" title="Phase 4 — Glory"></span>
+  </div>
+  <div class="legend">
+    <a class="legend-item" style="color:#0A3A6E;" data-target="phase1"><span class="legend-dot" style="background:#DDEEFF; border:1px solid #3A82CC;"></span>Phase 1</a>
+    <a class="legend-item" style="color:#5C3306;" data-target="phase2"><span class="legend-dot" style="background:#FAE8C8; border:1px solid #C07818;"></span>Phase 2</a>
+    <a class="legend-item" style="color:#074035;" data-target="phase3"><span class="legend-dot" style="background:#D4F0E5; border:1px solid #1A9E72;"></span>Phase 3</a>
+    <a class="legend-item" style="color:#641E0A;" data-target="phase4"><span class="legend-dot" style="background:#FAE2D8; border:1px solid #D0522A;"></span>Phase 4</a>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase-card" id="phase1" data-fd="fd-phase1" style="cursor:pointer;">
+    <div class="phase-top">
+      <div class="phase-header-row">
+        <div class="phase-header-left">
+          <span class="phase-badge p1-badge">Phase 1</span>
+          <div class="phase-title-block">
+            <div class="phase-number-label p1-number">God Is Good</div>
+            <div class="phase-title phase-title-link" data-fd="fd-phase1" title="View Phase 1 songs in First Draft">The Welcome <span class="title-link-icon">&#8599;</span></div>
+            <div class="phase-subtitle">Draw in &middot; lift the room &middot; land with assurance in God</div>
+          </div>
+        </div>
+        <div class="phase-time">
+          <div class="time-range p1-time">20 &ndash; 37 min</div>
+          <div class="time-pct">10 &ndash; 25% of service</div>
+        </div>
+      </div>
+      <div class="aim-box p1-aim">
+        <div class="aim-theology">To gather everyone &mdash; first-timer and veteran alike &mdash; into a shared space of expectation. The music here should be inviting and engaging. By the end of this phase the room should feel alive, together, and ready to go somewhere deeper.</div>
+        <hr class="aim-divider">
+        <div class="aim-musical">Songs here <strong>declare God&rsquo;s goodness as a reason to trust Him</strong> &mdash; celebratory, accessible, and congregational. Highlights of the segments are:</div>
+      </div>
+    </div>
+    <div class="segments-area">
+      <div class="seg">
+        <div class="seg-dot p1-dot"></div>
+        <div class="seg-body">
+          <div class="seg-title-row"><span class="seg-label">Opening Song</span><span class="seg-tag p1-tag">~4 &ndash; 5 min</span></div>
+          <ul class="seg-bullets"><li>Singable on first hearing</li><li>Simple, welcoming, no barriers to join</li></ul>
+        </div>
+      </div>
+      <div class="seg">
+        <div class="seg-dot p1-dot"></div>
+        <div class="seg-body">
+          <div class="seg-title-row"><span class="seg-label">Upbeat / Lively Pack</span><span class="seg-tag p1-tag">~8 &ndash; 15 min</span></div>
+          <ul class="seg-bullets"><li>High energy, clapping, movement</li><li>Accenting songs sustain the momentum</li></ul>
+        </div>
+      </div>
+      <div class="seg">
+        <div class="seg-dot p1-dot"></div>
+        <div class="seg-body">
+          <div class="seg-title-row"><span class="seg-label">Chorale Medley</span><span class="seg-tag p1-tag">~5 &ndash; 10 min</span></div>
+          <ul class="seg-bullets"><li>Seamless weave of known choruses</li><li>Congregation stays singing through the transition</li></ul>
+        </div>
+      </div>
+      <div class="seg">
+        <div class="seg-dot p1-dot"></div>
+        <div class="seg-body">
+          <div class="seg-title-row"><span class="seg-label">Reassuring Close</span><span class="seg-tag p1-tag">~3 &ndash; 7 min</span></div>
+          <ul class="seg-bullets"><li>God&rsquo;s goodness affirmed</li><li>End with hearts settled with assurance in God</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">&#8595;</div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-card" id="phase2" data-fd="fd-phase2" style="cursor:pointer;">
+    <div class="phase-top">
+      <div class="phase-header-row">
+        <div class="phase-header-left">
+          <span class="phase-badge p2-badge">Phase 2</span>
+          <div class="phase-title-block">
+            <div class="phase-number-label p2-number">God Will Help You</div>
+            <div class="phase-title phase-title-link" data-fd="fd-phase2" title="View Phase 2 songs in First Draft">The Help <span class="title-link-icon">&#8599;</span></div>
+            <div class="phase-subtitle">God does not leave us to do it alone</div>
+          </div>
+        </div>
+        <div class="phase-time">
+          <div class="time-range p2-time">22 &ndash; 45 min</div>
+          <div class="time-pct">15 &ndash; 30% of service</div>
+        </div>
+      </div>
+      <div class="aim-box p2-aim">
+        <div class="aim-theology">To meet the person who believes God is good but still feels they cannot yield. God does not stand at a distance and demand surrender &mdash; He draws near, cleanses what blocks, and by His Spirit makes the yielding possible. People should leave this phase feeling supported, not pressured, to surrender.</div>
+        <hr class="aim-divider">
+        <div class="aim-musical">Songs here <strong>lean on God as the One who comes to help</strong> &mdash; moving from tender acknowledgement of need, through the relief of forgiveness, to the confidence of being Spirit-equipped. Highlights of the segments are:</div>
+      </div>
+    </div>
+    <div class="segments-area">
+      <div class="seg">
+        <div class="seg-dot p2-dot"></div>
+        <div class="seg-body">
+          <div class="seg-title-row"><span class="seg-label">Repentance</span><span class="seg-tag p2-tag">~12 &ndash; 22 min</span></div>
+          <ul class="seg-bullets"><li>Honest space for conviction and confession</li><li>God&rsquo;s mercy fully received before moving on</li><li>Accenting songs deepen the moment</li></ul>
+        </div>
+      </div>
+      <div class="seg">
+        <div class="seg-dot p2-dot"></div>
+        <div class="seg-body">
+          <div class="seg-title-row"><span class="seg-label">Empowerment</span><span class="seg-tag p2-tag">~10 &ndash; 23 min</span></div>
+          <ul class="seg-bullets"><li>The Holy Spirit as the One who enables surrender</li><li>Identity, boldness, strength received &mdash; not self-generated</li><li>Phase-driver songs carry into Phase 3</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">&#8595;</div>
+
+  <!-- PHASE 3 -->
+  <div class="phase-card" id="phase3" data-fd="fd-phase3" style="cursor:pointer;">
+    <div class="phase-top">
+      <div class="phase-header-row">
+        <div class="phase-header-left">
+          <span class="phase-badge p3-badge">Phase 3</span>
+          <div class="phase-title-block">
+            <div class="phase-number-label p3-number">YES!</div>
+            <div class="phase-title phase-title-link" data-fd="fd-phase3" title="View Phase 3 songs in First Draft">The Surrender <span class="title-link-icon">&#8599;</span></div>
+            <div class="phase-subtitle">The meat of the service</div>
+          </div>
+        </div>
+        <div class="phase-time">
+          <div class="time-range p3-time">60 &ndash; 82 min</div>
+          <div class="time-pct">40 &ndash; 55% of service</div>
+        </div>
+      </div>
+      <div class="aim-box p3-aim">
+        <div class="aim-theology">The YES is not a single moment &mdash; it is a sustained movement. People do not yield all at once. This phase holds that space long enough for the will to actually break. Nearly half the service lives here because this is where the real transaction between the person and God happens.</div>
+        <hr class="aim-divider">
+        <div class="aim-musical">Songs here <strong>progressively release control to God</strong> &mdash; moving from declaration and invitation into deep, quiet agreement. They are unhurried, Spirit-led, and increasingly personal. Highlights of the segments are:</div>
+      </div>
+    </div>
+    <div class="segments-area">
+      <div class="seg">
+        <div class="seg-dot p3-dot"></div>
+        <div class="seg-body">
+          <div class="seg-title-row"><span class="seg-label">Take Control</span><span class="seg-tag p3-tag">~25 &ndash; 38 min</span></div>
+          <ul class="seg-bullets"><li>The invitation &mdash; &ldquo;You lead, You reign&rdquo;</li><li>Conscious handover of self to God</li><li>Accenting songs build depth before it settles</li></ul>
+        </div>
+      </div>
+      <div class="seg">
+        <div class="seg-dot p3-dot"></div>
+        <div class="seg-body">
+          <div class="seg-title-row"><span class="seg-label">Yes</span><span class="seg-tag p3-tag">~35 &ndash; 44 min</span></div>
+          <ul class="seg-bullets"><li>The wholehearted response and deep amen</li><li>Most intimate moment of the entire service</li><li>Spontaneous and prophetic space opens here</li><li>Carries the service naturally into Phase 4</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">&#8595;</div>
+
+  <!-- PHASE 4 -->
+  <div class="phase-card" id="phase4" data-fd="fd-phase4" style="cursor:pointer;">
+    <div class="phase-top">
+      <div class="phase-header-row">
+        <div class="phase-header-left">
+          <span class="phase-badge p4-badge">Phase 4</span>
+          <div class="phase-title-block">
+            <div class="phase-number-label p4-number">Glory</div>
+            <div class="phase-title phase-title-link" data-fd="fd-phase4" title="View Phase 4 songs in First Draft">The Send-Off <span class="title-link-icon">&#8599;</span></div>
+            <div class="phase-subtitle">Bright turn &middot; hot close</div>
+          </div>
+        </div>
+        <div class="phase-time">
+          <div class="time-range p4-time">20 &ndash; 37 min</div>
+          <div class="time-pct">10 &ndash; 25% of service</div>
+        </div>
+      </div>
+      <div class="aim-box p4-aim">
+        <div class="aim-theology">Phase 4 is consequence, not goal. You are not chasing glory &mdash; you are releasing a people who have already said yes. The worship here should feel different: not striving or desperate, but settled and exultant. They leave not because the service ended but because they have somewhere to go.</div>
+        <hr class="aim-divider">
+        <div class="aim-musical">Songs here <strong>celebrate what God has done and who His people now are</strong> &mdash; triumphant, full-voiced, and outward-facing. The energy is earned, not manufactured. Highlights of the segments are:</div>
+      </div>
+    </div>
+    <div class="segments-area">
+      <div class="seg">
+        <div class="seg-dot p4-dot"></div>
+        <div class="seg-body">
+          <div class="seg-title-row"><span class="seg-label">Turn into Brightness</span><span class="seg-tag p4-tag">~8 &ndash; 17 min</span></div>
+          <ul class="seg-bullets"><li>Joy flowing from genuine encounter, not performance</li><li>Pivot from surrender into triumph</li><li>Accenting songs ride the lift</li></ul>
+        </div>
+      </div>
+      <div class="seg">
+        <div class="seg-dot p4-dot"></div>
+        <div class="seg-body">
+          <div class="seg-title-row"><span class="seg-label">Hot Closing</span><span class="seg-tag p4-tag">~12 &ndash; 20 min</span></div>
+          <ul class="seg-bullets"><li>Loud, full, victorious</li><li>They leave with fire in them</li><li>Phase-driver &mdash; unmistakably final</li></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">Bullets are highlights only &mdash; each phase carries more than what is listed here</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     TAB 2 — FIRST DRAFT
+════════════════════════════════════════════ -->
+<div id="tab-firstdraft" class="tab-panel">
+  <div class="doc-header">
+    <div class="doc-title">First Draft &mdash; Song Pool</div>
+    <div class="doc-meta">93 songs across four phases &nbsp;&middot;&nbsp; Ranked by average total score (high &rarr; low)</div>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase-group">
+    <div id="fd-phase1" class="phase-group-title" style="background:#EDF5FF; color:#0A3A6E; scroll-margin-top:60px;">
+      Phase 1 &mdash; God Is Good
+      <span class="phase-group-count">21 songs</span>
+    </div>
+    <div class="two-col-grid">
+      <div class="song-row"><span class="s-num">1</span><div class="s-info"><span class="s-title">God Is Good</span><span class="s-artist">Don Moen</span></div><span class="s-score" style="color:#0A3A6E;">12.0</span></div>
+      <div class="song-row"><span class="s-num">2</span><div class="s-info"><span class="s-title">I Trust in You</span><span class="s-artist">Joe Mettle</span></div><span class="s-score" style="color:#0A3A6E;">12.0</span></div>
+      <div class="song-row"><span class="s-num">3</span><div class="s-info"><span class="s-title">You Are Good</span><span class="s-artist">Tye Tribbett</span></div><span class="s-score" style="color:#0A3A6E;">11.8</span></div>
+      <div class="song-row"><span class="s-num">4</span><div class="s-info"><span class="s-title">Goodness of God</span><span class="s-artist">Bethel Music</span></div><span class="s-score" style="color:#0A3A6E;">11.5</span></div>
+      <div class="song-row"><span class="s-num">5</span><div class="s-info"><span class="s-title">Tegbe Tegbe</span><span class="s-artist">Bethel Revival</span></div><span class="s-score" style="color:#0A3A6E;">11.3</span></div>
+      <div class="song-row"><span class="s-num">6</span><div class="s-info"><span class="s-title">God Is So Good</span><span class="s-artist">Ron Kenoly</span></div><span class="s-score" style="color:#0A3A6E;">11.0</span></div>
+      <div class="song-row"><span class="s-num">7</span><div class="s-info"><span class="s-title">After All These Years</span><span class="s-artist">Todd Galberth</span></div><span class="s-score" style="color:#0A3A6E;">10.8</span></div>
+      <div class="song-row"><span class="s-num">8</span><div class="s-info"><span class="s-title">You Are Good</span><span class="s-artist">Ntokozo Mbambo</span></div><span class="s-score" style="color:#0A3A6E;">10.8</span></div>
+      <div class="song-row"><span class="s-num">9</span><div class="s-info"><span class="s-title">You Are Good Medley</span><span class="s-artist">Todd Galberth</span></div><span class="s-score" style="color:#0A3A6E;">10.8</span></div>
+      <div class="song-row"><span class="s-num">10</span><div class="s-info"><span class="s-title">Great Is Thy Faithfulness</span><span class="s-artist">Ensemble</span></div><span class="s-score" style="color:#0A3A6E;">10.6</span></div>
+      <div class="song-row"><span class="s-num">11</span><div class="s-info"><span class="s-title">My God Is Good</span><span class="s-artist">Hala Afrika ft. Ayanda Ntanzi</span></div><span class="s-score" style="color:#0A3A6E;">10.6</span></div>
+      <div class="song-row"><span class="s-num">12</span><div class="s-info"><span class="s-title">You Are Good</span><span class="s-artist">Israel &amp; New Breed</span></div><span class="s-score" style="color:#0A3A6E;">10.3</span></div>
+      <div class="song-row"><span class="s-num">13</span><div class="s-info"><span class="s-title">For the LORD Is Good</span><span class="s-artist">Ron Kenoly</span></div><span class="s-score" style="color:#0A3A6E;">10.3</span></div>
+      <div class="song-row"><span class="s-num">14</span><div class="s-info"><span class="s-title">Reckless Love</span><span class="s-artist">Cory Asbury / Bethel Music</span></div><span class="s-score" style="color:#0A3A6E;">10.2</span></div>
+      <div class="song-row"><span class="s-num">15</span><div class="s-info"><span class="s-title">Promises</span><span class="s-artist">Maverick City Music</span></div><span class="s-score" style="color:#0A3A6E;">9.8</span></div>
+      <div class="song-row"><span class="s-num">16</span><div class="s-info"><span class="s-title">Trust in God</span><span class="s-artist">Elevation Worship</span></div><span class="s-score" style="color:#0A3A6E;">9.7</span></div>
+      <div class="song-row"><span class="s-num">17</span><div class="s-info"><span class="s-title">So Good</span><span class="s-artist">Nathaniel Bassey</span></div><span class="s-score" style="color:#0A3A6E;">9.6</span></div>
+      <div class="song-row"><span class="s-num">18</span><div class="s-info"><span class="s-title">God Is Good</span><span class="s-artist">Alvin Slaughter</span></div><span class="s-score" style="color:#0A3A6E;">8.7</span></div>
+      <div class="song-row"><span class="s-num">19</span><div class="s-info"><span class="s-title">Good God</span><span class="s-artist">LimoBlaze</span></div><span class="s-score" style="color:#0A3A6E;">7.7</span></div>
+      <div class="song-row"><span class="s-num">20</span><div class="s-info"><span class="s-title">I Will Trust</span><span class="s-artist">Fred Hammond</span></div><span class="s-score" style="color:#0A3A6E;">7.6</span></div>
+      <div class="song-row"><span class="s-num">21</span><div class="s-info"><span class="s-title">As We Worship You</span><span class="s-artist">Don Moen</span></div><span class="s-score" style="color:#0A3A6E;">7.0</span></div>
+      <div></div>
+    </div>
+    <button class="back-to-roadmap" data-next="phase2"><span class="btn-arrow">&#8592;</span> Back to Roadmap &mdash; Phase 2</button>
+  </div>
+
+  <!-- Phase 2 -->
+  <div class="phase-group">
+    <div id="fd-phase2" class="phase-group-title" style="background:#FDF2E0; color:#5C3306; scroll-margin-top:60px;">
+      Phase 2 &mdash; God Will Help You
+      <span class="phase-group-count">16 songs</span>
+    </div>
+    <div class="two-col-grid">
+      <div class="song-row"><span class="s-num">1</span><div class="s-info"><span class="s-title">My Help</span><span class="s-artist">Onn Gospel ft. Grace Charles</span></div><span class="s-score" style="color:#5C3306;">11.4</span></div>
+      <div class="song-row"><span class="s-num">2</span><div class="s-info"><span class="s-title">By Myself</span><span class="s-artist">Deon Kipping</span></div><span class="s-score" style="color:#5C3306;">11.4</span></div>
+      <div class="song-row"><span class="s-num">3</span><div class="s-info"><span class="s-title">You Won't Let Go</span><span class="s-artist">Todd Galberth</span></div><span class="s-score" style="color:#5C3306;">11.4</span></div>
+      <div class="song-row"><span class="s-num">4</span><div class="s-info"><span class="s-title">God I Look to You</span><span class="s-artist">Bethel Music</span></div><span class="s-score" style="color:#5C3306;">11.3</span></div>
+      <div class="song-row"><span class="s-num">5</span><div class="s-info"><span class="s-title">Matwen Awurade</span><span class="s-artist">Kofi Owusu Preprah</span></div><span class="s-score" style="color:#5C3306;">11.0</span></div>
+      <div class="song-row"><span class="s-num">6</span><div class="s-info"><span class="s-title">I Am Not Alone</span><span class="s-artist">Kari Jobe</span></div><span class="s-score" style="color:#5C3306;">10.7</span></div>
+      <div class="song-row"><span class="s-num">7</span><div class="s-info"><span class="s-title">Another in the Fire</span><span class="s-artist">Hillsong United</span></div><span class="s-score" style="color:#5C3306;">10.7</span></div>
+      <div class="song-row"><span class="s-num">8</span><div class="s-info"><span class="s-title">Lord, I Need You</span><span class="s-artist">Matt Maher</span></div><span class="s-score" style="color:#5C3306;">10.7</span></div>
+      <div class="song-row"><span class="s-num">9</span><div class="s-info"><span class="s-title">Ye Obua Mi</span><span class="s-artist">Joe Mettle</span></div><span class="s-score" style="color:#5C3306;">10.4</span></div>
+      <div class="song-row"><span class="s-num">10</span><div class="s-info"><span class="s-title">Through It All</span><span class="s-artist">Andrae Crouch</span></div><span class="s-score" style="color:#5C3306;">10.4</span></div>
+      <div class="song-row"><span class="s-num">11</span><div class="s-info"><span class="s-title">Lord Have Mercy</span><span class="s-artist">Michael W. Smith</span></div><span class="s-score" style="color:#5C3306;">10.0</span></div>
+      <div class="song-row"><span class="s-num">12</span><div class="s-info"><span class="s-title">Hold On</span><span class="s-artist">Bernice Offei</span></div><span class="s-score" style="color:#5C3306;">9.7</span></div>
+      <div class="song-row"><span class="s-num">13</span><div class="s-info"><span class="s-title">Our Help Is in the Name of the LORD</span><span class="s-artist">Alvin Slaughter</span></div><span class="s-score" style="color:#5C3306;">9.5</span></div>
+      <div class="song-row"><span class="s-num">14</span><div class="s-info"><span class="s-title">We Wait</span><span class="s-artist">Don Moen</span></div><span class="s-score" style="color:#5C3306;">9.3</span></div>
+      <div class="song-row"><span class="s-num">15</span><div class="s-info"><span class="s-title">Not in a Hurry</span><span class="s-artist">Will Reagan</span></div><span class="s-score" style="color:#5C3306;">9.3</span></div>
+      <div class="song-row"><span class="s-num">16</span><div class="s-info"><span class="s-title">Emmanuel</span><span class="s-artist">Joshua Adedeji</span></div><span class="s-score" style="color:#5C3306;">9.0</span></div>
+    </div>
+    <button class="back-to-roadmap" data-next="phase3"><span class="btn-arrow">&#8592;</span> Back to Roadmap &mdash; Phase 3</button>
+  </div>
+
+  <!-- Phase 3 -->
+  <div class="phase-group">
+    <div id="fd-phase3" class="phase-group-title" style="background:#E6F8F0; color:#074035; scroll-margin-top:60px;">
+      Phase 3 &mdash; YES!
+      <span class="phase-group-count">38 songs</span>
+    </div>
+    <div class="two-col-grid">
+      <div class="song-row"><span class="s-num">1</span><div class="s-info"><span class="s-title">Oceans (Where Feet May Fail)</span><span class="s-artist">Hillsong United</span></div><span class="s-score" style="color:#074035;">11.7</span></div>
+      <div class="song-row"><span class="s-num">2</span><div class="s-info"><span class="s-title">It All Belongs to You</span><span class="s-artist">Damita Haddon</span></div><span class="s-score" style="color:#074035;">11.7</span></div>
+      <div class="song-row"><span class="s-num">3</span><div class="s-info"><span class="s-title">I Surrender All</span><span class="s-artist">Public Domain</span></div><span class="s-score" style="color:#074035;">11.7</span></div>
+      <div class="song-row"><span class="s-num">4</span><div class="s-info"><span class="s-title">My Soul Says Yes</span><span class="s-artist">Sonnie Badu</span></div><span class="s-score" style="color:#074035;">11.7</span></div>
+      <div class="song-row"><span class="s-num">5</span><div class="s-info"><span class="s-title">So Will I</span><span class="s-artist">UPPERROOM</span></div><span class="s-score" style="color:#074035;">11.7</span></div>
+      <div class="song-row"><span class="s-num">6</span><div class="s-info"><span class="s-title">I'll Say Yes</span><span class="s-artist">Kevin LeVar</span></div><span class="s-score" style="color:#074035;">11.4</span></div>
+      <div class="song-row"><span class="s-num">7</span><div class="s-info"><span class="s-title">Withholding Nothing</span><span class="s-artist">William McDowell</span></div><span class="s-score" style="color:#074035;">11.3</span></div>
+      <div class="song-row"><span class="s-num">8</span><div class="s-info"><span class="s-title">I'll Say Yes</span><span class="s-artist">Brooklyn Tabernacle Choir</span></div><span class="s-score" style="color:#074035;">11.1</span></div>
+      <div class="song-row"><span class="s-num">9</span><div class="s-info"><span class="s-title">Have Your Way</span><span class="s-artist">Don Moen</span></div><span class="s-score" style="color:#074035;">11.0</span></div>
+      <div class="song-row"><span class="s-num">10</span><div class="s-info"><span class="s-title">I'll Just Say Yes</span><span class="s-artist">Brian Courtney Wilson</span></div><span class="s-score" style="color:#074035;">11.0</span></div>
+      <div class="song-row"><span class="s-num">11</span><div class="s-info"><span class="s-title">Do a Work in Me</span><span class="s-artist">Kaestrings Music</span></div><span class="s-score" style="color:#074035;">11.0</span></div>
+      <div class="song-row"><span class="s-num">12</span><div class="s-info"><span class="s-title">Not My Will</span><span class="s-artist">Emmasings ft. Kaestrings</span></div><span class="s-score" style="color:#074035;">11.0</span></div>
+      <div class="song-row"><span class="s-num">13</span><div class="s-info"><span class="s-title">I Surrender All / We Say Yes</span><span class="s-artist">William McDowell</span></div><span class="s-score" style="color:#074035;">11.0</span></div>
+      <div class="song-row"><span class="s-num">14</span><div class="s-info"><span class="s-title">Yes Lord</span><span class="s-artist">JudiKay</span></div><span class="s-score" style="color:#074035;">11.0</span></div>
+      <div class="song-row"><span class="s-num">15</span><div class="s-info"><span class="s-title">I Surrender (Live)</span><span class="s-artist">Deeper Worship &amp; Matt Gilman</span></div><span class="s-score" style="color:#074035;">11.0</span></div>
+      <div class="song-row"><span class="s-num">16</span><div class="s-info"><span class="s-title">Have Your Way</span><span class="s-artist">Ntokozo Mbambo</span></div><span class="s-score" style="color:#074035;">11.0</span></div>
+      <div class="song-row"><span class="s-num">17</span><div class="s-info"><span class="s-title">I Give You My Heart</span><span class="s-artist">Hillsong Worship</span></div><span class="s-score" style="color:#074035;">10.7</span></div>
+      <div class="song-row"><span class="s-num">18</span><div class="s-info"><span class="s-title">I'll Say Yes</span><span class="s-artist">Don Moen, Integrity Hosanna Choir</span></div><span class="s-score" style="color:#074035;">10.7</span></div>
+      <div class="song-row"><span class="s-num">19</span><div class="s-info"><span class="s-title">Volume of the Book</span><span class="s-artist">Moses Akoh, Theophilus Sunday</span></div><span class="s-score" style="color:#074035;">10.7</span></div>
+      <div class="song-row"><span class="s-num">20</span><div class="s-info"><span class="s-title">I Surrender</span><span class="s-artist">Hillsong Worship</span></div><span class="s-score" style="color:#074035;">10.7</span></div>
+      <div class="song-row"><span class="s-num">21</span><div class="s-info"><span class="s-title">For Your Glory</span><span class="s-artist">Tasha Cobbs Leonard</span></div><span class="s-score" style="color:#074035;">10.7</span></div>
+      <div class="song-row"><span class="s-num">22</span><div class="s-info"><span class="s-title">Have Your Way</span><span class="s-artist">JudiKay</span></div><span class="s-score" style="color:#074035;">10.7</span></div>
+      <div class="song-row"><span class="s-num">23</span><div class="s-info"><span class="s-title">Let Praises Rise</span><span class="s-artist">Maranda Curtis</span></div><span class="s-score" style="color:#074035;">10.7</span></div>
+      <div class="song-row"><span class="s-num">24</span><div class="s-info"><span class="s-title">Yes</span><span class="s-artist">Joe Mettle</span></div><span class="s-score" style="color:#074035;">10.5</span></div>
+      <div class="song-row"><span class="s-num">25</span><div class="s-info"><span class="s-title">Pass Me Not</span><span class="s-artist">Public Domain</span></div><span class="s-score" style="color:#074035;">10.4</span></div>
+      <div class="song-row"><span class="s-num">26</span><div class="s-info"><span class="s-title">We Surrender It All</span><span class="s-artist">Todd Dulaney</span></div><span class="s-score" style="color:#074035;">10.4</span></div>
+      <div class="song-row"><span class="s-num">27</span><div class="s-info"><span class="s-title">Lead Me Lord</span><span class="s-artist">Brooklyn Tabernacle</span></div><span class="s-score" style="color:#074035;">10.4</span></div>
+      <div class="song-row"><span class="s-num">28</span><div class="s-info"><span class="s-title">Forever at Your Feet</span><span class="s-artist">Tasha Cobbs Leonard</span></div><span class="s-score" style="color:#074035;">10.3</span></div>
+      <div class="song-row"><span class="s-num">29</span><div class="s-info"><span class="s-title">I'll Keep Running</span><span class="s-artist">Todd Dulaney</span></div><span class="s-score" style="color:#074035;">10.0</span></div>
+      <div class="song-row"><span class="s-num">30</span><div class="s-info"><span class="s-title">I Surrender</span><span class="s-artist">Joe Mettle</span></div><span class="s-score" style="color:#074035;">10.0</span></div>
+      <div class="song-row"><span class="s-num">31</span><div class="s-info"><span class="s-title">Yes</span><span class="s-artist">Lawrence Flowers</span></div><span class="s-score" style="color:#074035;">10.0</span></div>
+      <div class="song-row"><span class="s-num">32</span><div class="s-info"><span class="s-title">You Are Here</span><span class="s-artist">William McDowell</span></div><span class="s-score" style="color:#074035;">9.7</span></div>
+      <div class="song-row"><span class="s-num">33</span><div class="s-info"><span class="s-title">Yes</span><span class="s-artist">Todd Dulaney</span></div><span class="s-score" style="color:#074035;">9.5</span></div>
+      <div class="song-row"><span class="s-num">34</span><div class="s-info"><span class="s-title">Falling on My Knees</span><span class="s-artist">William McDowell</span></div><span class="s-score" style="color:#074035;">9.5</span></div>
+      <div class="song-row"><span class="s-num">35</span><div class="s-info"><span class="s-title">Yes</span><span class="s-artist">Kofi Peprah</span></div><span class="s-score" style="color:#074035;">9.3</span></div>
+      <div class="song-row"><span class="s-num">36</span><div class="s-info"><span class="s-title">I See Wood</span><span class="s-artist">Siisi Baidoo</span></div><span class="s-score" style="color:#074035;">9.0</span></div>
+      <div class="song-row"><span class="s-num">37</span><div class="s-info"><span class="s-title">Your Way / Same Glory</span><span class="s-artist">Khaya Mthethwa</span></div><span class="s-score" style="color:#074035;">9.0</span></div>
+      <div class="song-row"><span class="s-num">38</span><div class="s-info"><span class="s-title">My Life Is Available to You</span><span class="s-artist">T.D. Jakes</span></div><span class="s-score" style="color:#074035;">8.3</span></div>
+      <div></div>
+    </div>
+    <button class="back-to-roadmap" data-next="phase4"><span class="btn-arrow">&#8592;</span> Back to Roadmap &mdash; Phase 4</button>
+  </div>
+
+  <!-- Phase 4 -->
+  <div class="phase-group">
+    <div id="fd-phase4" class="phase-group-title" style="background:#FDF0EA; color:#641E0A; scroll-margin-top:60px;">
+      Phase 4 &mdash; Glory
+      <span class="phase-group-count">18 songs</span>
+    </div>
+    <div class="two-col-grid">
+      <div class="song-row"><span class="s-num">1</span><div class="s-info"><span class="s-title">Ancient of Days</span><span class="s-artist">Ron Kenoly</span></div><span class="s-score" style="color:#641E0A;">11.7</span></div>
+      <div class="song-row"><span class="s-num">2</span><div class="s-info"><span class="s-title">You Are Glorious / Most High</span><span class="s-artist">Collen Maluleke</span></div><span class="s-score" style="color:#641E0A;">11.5</span></div>
+      <div class="song-row"><span class="s-num">3</span><div class="s-info"><span class="s-title">Be Glorified</span><span class="s-artist">Ron Kenoly</span></div><span class="s-score" style="color:#641E0A;">11.4</span></div>
+      <div class="song-row"><span class="s-num">4</span><div class="s-info"><span class="s-title">The Glory</span><span class="s-artist">Uche Agu</span></div><span class="s-score" style="color:#641E0A;">11.0</span></div>
+      <div class="song-row"><span class="s-num">5</span><div class="s-info"><span class="s-title">You Deserve It</span><span class="s-artist">JJ Hairston</span></div><span class="s-score" style="color:#641E0A;">10.7</span></div>
+      <div class="song-row"><span class="s-num">6</span><div class="s-info"><span class="s-title">All Is for Your Glory</span><span class="s-artist">Jesus Image</span></div><span class="s-score" style="color:#641E0A;">10.7</span></div>
+      <div class="song-row"><span class="s-num">7</span><div class="s-info"><span class="s-title">Glorify Thy Name</span><span class="s-artist">Benny Hinn</span></div><span class="s-score" style="color:#641E0A;">10.7</span></div>
+      <div class="song-row"><span class="s-num">8</span><div class="s-info"><span class="s-title">When God Walks In</span><span class="s-artist">Dunsin Oyekan</span></div><span class="s-score" style="color:#641E0A;">10.5</span></div>
+      <div class="song-row"><span class="s-num">9</span><div class="s-info"><span class="s-title">Ogo</span><span class="s-artist">Dunsin Oyekan</span></div><span class="s-score" style="color:#641E0A;">10.4</span></div>
+      <div class="song-row"><span class="s-num">10</span><div class="s-info"><span class="s-title">Let the Weight of Your Glory Fall</span><span class="s-artist">Paul Wilbur</span></div><span class="s-score" style="color:#641E0A;">10.4</span></div>
+      <div class="song-row"><span class="s-num">11</span><div class="s-info"><span class="s-title">Let It Rise</span><span class="s-artist">William Murphy</span></div><span class="s-score" style="color:#641E0A;">10.4</span></div>
+      <div class="song-row"><span class="s-num">12</span><div class="s-info"><span class="s-title">I Won't Go Back</span><span class="s-artist">William McDowell</span></div><span class="s-score" style="color:#641E0A;">10.3</span></div>
+      <div class="song-row"><span class="s-num">13</span><div class="s-info"><span class="s-title">Glory Song</span><span class="s-artist">Dunsin Oyekan</span></div><span class="s-score" style="color:#641E0A;">10.3</span></div>
+      <div class="song-row"><span class="s-num">14</span><div class="s-info"><span class="s-title">Alpha and Omega</span><span class="s-artist">Israel &amp; New Breed</span></div><span class="s-score" style="color:#641E0A;">10.0</span></div>
+      <div class="song-row"><span class="s-num">15</span><div class="s-info"><span class="s-title">Great I Am</span><span class="s-artist">LaRue Howard</span></div><span class="s-score" style="color:#641E0A;">10.0</span></div>
+      <div class="song-row"><span class="s-num">16</span><div class="s-info"><span class="s-title">Oh the Glory of Your Presence</span><span class="s-artist">Ron Kenoly</span></div><span class="s-score" style="color:#641E0A;">10.0</span></div>
+      <div class="song-row"><span class="s-num">17</span><div class="s-info"><span class="s-title">You Deserve All the Glory</span><span class="s-artist">The Amen Choir</span></div><span class="s-score" style="color:#641E0A;">9.7</span></div>
+      <div class="song-row"><span class="s-num">18</span><div class="s-info"><span class="s-title">Glory to the Lamb</span><span class="s-artist">Benny Hinn</span></div><span class="s-score" style="color:#641E0A;">9.4</span></div>
+    </div>
+    <button class="back-to-roadmap" data-next="phase1"><span class="btn-arrow">&#8592;</span> Back to Roadmap</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     TAB 3 — DISQUALIFIED SONGS
+════════════════════════════════════════════ -->
+<div id="tab-dq" class="tab-panel">
+  <div class="doc-header">
+    <div class="doc-title">Disqualified Songs</div>
+    <div class="doc-meta">51 songs removed from all shortlists</div>
+  </div>
+  <div class="two-col-dq">
+    <div class="dq-row"><span class="dq-num">1</span><div class="dq-info"><span class="dq-title">All Things Are Working for My Good</span><span class="dq-artist">Travis Greene</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">2</span><div class="dq-info"><span class="dq-title">Crazy Love</span><span class="dq-artist">Akesse Brempong</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">3</span><div class="dq-info"><span class="dq-title">Enough for Me</span><span class="dq-artist">Sinach ft. Sunmisola Agbebi</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">4</span><div class="dq-info"><span class="dq-title">Excess Love</span><span class="dq-artist">Mercy Chinwo</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">5</span><div class="dq-info"><span class="dq-title">For My Good</span><span class="dq-artist">Maverick City Music</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">6</span><div class="dq-info"><span class="dq-title">Forever</span><span class="dq-artist">Chris Tomlin</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">7</span><div class="dq-info"><span class="dq-title">Forever</span><span class="dq-artist">Dunsin Oyekan</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">8</span><div class="dq-info"><span class="dq-title">God Will Make a Way</span><span class="dq-artist">Don Moen</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">9</span><div class="dq-info"><span class="dq-title">God Will Work It Out</span><span class="dq-artist">Naomi Raine</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">10</span><div class="dq-info"><span class="dq-title">Good Good Father</span><span class="dq-artist">Chris Tomlin</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">11</span><div class="dq-info"><span class="dq-title">He Is Exalted</span><span class="dq-artist">JJ Hairston</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">12</span><div class="dq-info"><span class="dq-title">He Loves Us</span><span class="dq-artist">Kim Walker-Smith / Jesus Culture</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">13</span><div class="dq-info"><span class="dq-title">Here I Am to Worship (Bridge)</span><span class="dq-artist">&mdash;</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">14</span><div class="dq-info"><span class="dq-title">Here on Our Knees</span><span class="dq-artist">Oncemore Six</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">15</span><div class="dq-info"><span class="dq-title">Holy Forever</span><span class="dq-artist">Bethel / Tomlin / CeCe Winans</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">16</span><div class="dq-info"><span class="dq-title">I Know You Will</span><span class="dq-artist">Dunsin Oyekan</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">17</span><div class="dq-info"><span class="dq-title">I Stand in Awe of You</span><span class="dq-artist">Benny Hinn</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">18</span><div class="dq-info"><span class="dq-title">I Will Come and Bow Down</span><span class="dq-artist">Ron Kenoly</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">19</span><div class="dq-info"><span class="dq-title">In Christ Alone</span><span class="dq-artist">Michael W. Smith / 2024 WX</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">20</span><div class="dq-info"><span class="dq-title">In Good Hands</span><span class="dq-artist">Gaither &amp; Angela Primm</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">21</span><div class="dq-info"><span class="dq-title">Jehovah Jireh</span><span class="dq-artist">Don Moen</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">22</span><div class="dq-info"><span class="dq-title">King Eternal</span><span class="dq-artist">Nathaniel Bassey</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">23</span><div class="dq-info"><span class="dq-title">King of Kings, Majesty</span><span class="dq-artist">Jarrod Cooper</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">24</span><div class="dq-info"><span class="dq-title">Know You Will</span><span class="dq-artist">Hillsong United</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">25</span><div class="dq-info"><span class="dq-title">Kyere Me Kwan</span><span class="dq-artist">Esther Smith ft. OJ&hellip;</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">26</span><div class="dq-info"><span class="dq-title">My Desire</span><span class="dq-artist">William McDowell</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">27</span><div class="dq-info"><span class="dq-title">My Father &amp; My Friend</span><span class="dq-artist">Elijah Oyelade</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">28</span><div class="dq-info"><span class="dq-title">Never Lost</span><span class="dq-artist">CeCe Winans</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">29</span><div class="dq-info"><span class="dq-title">No Longer Slaves</span><span class="dq-artist">Bethel Music</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">30</span><div class="dq-info"><span class="dq-title">Nyame Aguanma</span><span class="dq-artist">Esther Smith</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">31</span><div class="dq-info"><span class="dq-title">Oh Be Lifted</span><span class="dq-artist">MOG Music</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">32</span><div class="dq-info"><span class="dq-title">Oye Onyame</span><span class="dq-artist">Stella Seal</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">33</span><div class="dq-info"><span class="dq-title">Pour My Love on You</span><span class="dq-artist">Phillips, Craig &amp; Dean</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">34</span><div class="dq-info"><span class="dq-title">The Steadfast Love of the Lord</span><span class="dq-artist">Public Domain</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">35</span><div class="dq-info"><span class="dq-title">This God Is Too Good</span><span class="dq-artist">Nathaniel Bassey</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">36</span><div class="dq-info"><span class="dq-title">This Is Your House</span><span class="dq-artist">Don Moen</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">37</span><div class="dq-info"><span class="dq-title">Those Who Will Win</span><span class="dq-artist">Dunsin Oyekan</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">38</span><div class="dq-info"><span class="dq-title">Too Faithful</span><span class="dq-artist">Moses Bliss</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">39</span><div class="dq-info"><span class="dq-title">Way Maker</span><span class="dq-artist">Sinach</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">40</span><div class="dq-info"><span class="dq-title">What a Beautiful Name</span><span class="dq-artist">Hillsong Worship</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">41</span><div class="dq-info"><span class="dq-title">When I Remember</span><span class="dq-artist">Ntokozo Mbambo</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">42</span><div class="dq-info"><span class="dq-title">When You Walk in the Room</span><span class="dq-artist">William McDowell</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">43</span><div class="dq-info"><span class="dq-title">Worthy of It All</span><span class="dq-artist">CeCe Winans</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">44</span><div class="dq-info"><span class="dq-title">Yes</span><span class="dq-artist">Ada Ehi</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">45</span><div class="dq-info"><span class="dq-title">Yes</span><span class="dq-artist">Juanita Bynum</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">46</span><div class="dq-info"><span class="dq-title">Yes</span><span class="dq-artist">Karen Clark Sheard</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">47</span><div class="dq-info"><span class="dq-title">Yes</span><span class="dq-artist">Michelle Williams</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">48</span><div class="dq-info"><span class="dq-title">Yes I Will</span><span class="dq-artist">Vertical Worship</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">49</span><div class="dq-info"><span class="dq-title">Yeshua</span><span class="dq-artist">Jesus Image</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">50</span><div class="dq-info"><span class="dq-title">You Are Good</span><span class="dq-artist">David Nkennor</span></div><span class="dq-badge">DQ</span></div>
+    <div class="dq-row"><span class="dq-num">51</span><div class="dq-info"><span class="dq-title">You Are Great</span><span class="dq-artist">Team Eternity ft. Kofi Karikari</span></div><span class="dq-badge">DQ</span></div>
+  </div>
+</div>
+
+<script>
+  /* ── helpers ── */
+  function activateTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById('tab-' + id).classList.add('active');
+    var btns = document.querySelectorAll('.tab-btn');
+    var map = { roadmap: 0, firstdraft: 1, dq: 2 };
+    if (map[id] !== undefined) btns[map[id]].classList.add('active');
+  }
+
+  function highlightCard(el) {
+    document.querySelectorAll('.phase-card').forEach(function(c) { c.classList.remove('highlight'); });
+    el.classList.add('highlight');
+    setTimeout(function() { el.classList.remove('highlight'); }, 1800);
+  }
+
+  function scrollTo(el, delay) {
+    setTimeout(function() {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, delay || 60);
+  }
+
+  /* ── Tab buttons ── */
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var map = ['roadmap', 'firstdraft', 'dq'];
+      var idx = Array.from(document.querySelectorAll('.tab-btn')).indexOf(btn);
+      activateTab(map[idx]);
+    });
+  });
+
+  /* ── Progress bar segments → roadmap phase ── */
+  document.querySelectorAll('.progress-bar span[data-target]').forEach(function(seg) {
+    seg.addEventListener('click', function() {
+      activateTab('roadmap');
+      var target = document.getElementById(seg.dataset.target);
+      if (target) { scrollTo(target); highlightCard(target); }
+    });
+  });
+
+  /* ── Legend items → roadmap phase ── */
+  document.querySelectorAll('.legend-item[data-target]').forEach(function(item) {
+    item.addEventListener('click', function() {
+      activateTab('roadmap');
+      var target = document.getElementById(item.dataset.target);
+      if (target) { scrollTo(target); highlightCard(target); }
+    });
+  });
+
+  /* ── Phase card click → go to First Draft phase ── */
+  document.querySelectorAll('.phase-card[data-fd]').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      // Don't fire if clicking the title link (it has its own handler)
+      if (e.target.closest('.phase-title-link')) return;
+      activateTab('firstdraft');
+      var target = document.getElementById(card.dataset.fd);
+      if (target) scrollTo(target);
+    });
+  });
+
+  /* ── Phase title link → go to First Draft phase ── */
+  document.querySelectorAll('.phase-title-link[data-fd]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.stopPropagation();
+      activateTab('firstdraft');
+      var target = document.getElementById(link.dataset.fd);
+      if (target) scrollTo(target);
+    });
+  });
+
+  /* ── "Back to roadmap" buttons in First Draft ── */
+  document.querySelectorAll('.back-to-roadmap').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var nextPhase = btn.dataset.next;
+      activateTab('roadmap');
+      var target = document.getElementById(nextPhase);
+      if (target) { scrollTo(target); highlightCard(target); }
+    });
+  });
+</script>
+</body>
+</html>
