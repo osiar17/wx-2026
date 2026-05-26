@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WX 26 — Worship Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'EB Garamond', Georgia, serif;
+    background: #FAF8F4;
+    color: #1C1A16;
+    padding: 40px 24px 60px;
+    max-width: 760px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* Header */
+  .doc-header {
+    border-bottom: 2px solid #1C1A16;
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+  }
+  .doc-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: #1C1A16;
+    line-height: 1.2;
+  }
+  .doc-meta {
+    font-size: 14px;
+    color: #6B6660;
+    margin-top: 5px;
+    font-style: italic;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    display: flex;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    gap: 3px;
+    margin-bottom: 10px;
+  }
+  .progress-bar span { border-radius: 3px; }
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .legend-item {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'EB Garamond', Georgia, serif;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  /* Arrow */
+  .arrow {
+    text-align: center;
+    font-size: 22px;
+    color: #B0A99E;
+    margin: 8px 0;
+    line-height: 1;
+  }
+
+  /* Phase card */
+  .phase-card {
+    border: 1.5px solid #D8D2C8;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    background: #FFFFFF;
+  }
+
+  .phase-top {
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid #E8E3DA;
+  }
+
+  .phase-header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .phase-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .phase-badge {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .phase-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #1C1A16;
+    line-height: 1.2;
+  }
+
+  .phase-subtitle {
+    font-size: 13px;
+    color: #8A8278;
+    margin-top: 3px;
+    font-style: italic;
+  }
+
+  .phase-time {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .time-range {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .time-pct {
+    font-size: 12px;
+    color: #8A8278;
+    margin-top: 2px;
+    font-style: italic;
+  }
+
+  /* Aim box */
+  .aim-box {
+    border-radius: 7px;
+    padding: 13px 15px;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .aim-theology {
+    font-style: italic;
+    color: inherit;
+  }
+
+  .aim-divider {
+    border: none;
+    border-top: 1px dashed;
+    margin: 10px 0;
+    opacity: 0.35;
+  }
+
+  .aim-musical {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .aim-musical strong {
+    font-weight: 700;
+  }
+
+  /* Segments */
+  .segments-area {
+    padding: 0 22px 8px;
+  }
+
+  .seg {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 13px 0;
+    border-top: 1px solid #EDE8E0;
+  }
+
+  .seg-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .seg-body { flex: 1; }
+
+  .seg-title-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .seg-label {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1C1A16;
+  }
+
+  .seg-tag {
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'EB Garamond', Georgia, serif;
+    padding: 2px 9px;
+    border-radius: 20px;
+  }
+
+  .seg-bullets {
+    list-style: none;
+    margin-top: 6px;
+  }
+
+  .seg-bullets li {
+    font-size: 15px;
+    color: #5A544C;
+    line-height: 1.65;
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+  }
+
+  .seg-bullets li::before {
+    content: "·";
+    font-size: 18px;
+    color: #B0A99E;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  /* Footer */
+  .doc-footer {
+    margin-top: 28px;
+    border-top: 1px solid #D8D2C8;
+    padding-top: 14px;
+    font-size: 13px;
+    color: #9A948A;
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* Phase-specific colors */
+  /* Phase 1 — Blue */
+  .p1-badge  { background: #DDEEFF; color: #0A3A6E; }
+  .p1-aim    { background: #EDF5FF; color: #0A3A6E; }
+  .p1-time   { color: #1060A8; }
+  .p1-dot    { background: #3A82CC; }
+  .p1-tag    { background: #DDEEFF; color: #0A3A6E; }
+
+  /* Phase 2 — Amber */
+  .p2-badge  { background: #FAE8C8; color: #5C3306; }
+  .p2-aim    { background: #FDF2E0; color: #5C3306; }
+  .p2-time   { color: #7A4A0A; }
+  .p2-dot    { background: #C07818; }
+  .p2-tag    { background: #FAE8C8; color: #5C3306; }
+
+  /* Phase 3 — Teal */
+  .p3-badge  { background: #D4F0E5; color: #074035; }
+  .p3-aim    { background: #E6F8F0; color: #074035; }
+  .p3-time   { color: #0C6045; }
+  .p3-dot    { background: #1A9E72; }
+  .p3-tag    { background: #D4F0E5; color: #074035; }
+
+  /* Phase 4 — Coral */
+  .p4-badge  { background: #FAE2D8; color: #641E0A; }
+  .p4-aim    { background: #FDF0EA; color: #641E0A; }
+  .p4-time   { color: #8A3018; }
+  .p4-dot    { background: #D0522A; }
+  .p4-tag    { background: #FAE2D8; color: #641E0A; }
+
+  @media print {
+    body { background: white; padding: 20px; }
+    .phase-card { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-title">WX 26 &mdash; Worship Roadmap</div>
+  <div class="doc-meta">Total duration: 2 hr 30 min &nbsp;&middot;&nbsp; Four phases</div>
+</div>
+
+<div class="progress-bar">
+  <span style="width:17%; background:#3A82CC;"></span>
+  <span style="width:20%; background:#C07818;"></span>
+  <span style="width:48%; background:#1A9E72;"></span>
+  <span style="width:15%; background:#D0522A;"></span>
+</div>
+<div class="legend">
+  <span class="legend-item" style="color:#0A3A6E;"><span class="legend-dot" style="background:#DDEEFF; border: 1px solid #3A82CC;"></span>Phase 1</span>
+  <span class="legend-item" style="color:#5C3306;"><span class="legend-dot" style="background:#FAE8C8; border: 1px solid #C07818;"></span>Phase 2</span>
+  <span class="legend-item" style="color:#074035;"><span class="legend-dot" style="background:#D4F0E5; border: 1px solid #1A9E72;"></span>Phase 3</span>
+  <span class="legend-item" style="color:#641E0A;"><span class="legend-dot" style="background:#FAE2D8; border: 1px solid #D0522A;"></span>Phase 4</span>
+</div>
+
+
+<!-- ═══ PHASE 1 ═══ -->
+<div class="phase-card">
+  <div class="phase-top">
+    <div class="phase-header-row">
+      <div class="phase-header-left">
+        <span class="phase-badge p1-badge">Phase 1</span>
+        <div>
+          <div class="phase-title">The Welcome</div>
+          <div class="phase-subtitle">Draw in &middot; lift the room &middot; land with peace</div>
+        </div>
+      </div>
+      <div class="phase-time">
+        <div class="time-range p1-time">20 &ndash; 37 min</div>
+        <div class="time-pct">10 &ndash; 25% of service</div>
+      </div>
+    </div>
+    <div class="aim-box p1-aim">
+      <div class="aim-theology">To gather everyone &mdash; first-timer and veteran alike &mdash; into a shared space of expectation. The music here should be inviting and engaging. By the end of this phase the room should feel alive, together, and ready to go somewhere deeper.</div>
+      <hr class="aim-divider">
+      <div class="aim-musical">Songs here <strong>declare God&rsquo;s goodness as a reason to trust Him</strong> &mdash; celebratory, accessible, and congregational. Highlights of the segments are:</div>
+    </div>
+  </div>
+  <div class="segments-area">
+    <div class="seg">
+      <div class="seg-dot p1-dot"></div>
+      <div class="seg-body">
+        <div class="seg-title-row">
+          <span class="seg-label">Opening Song</span>
+          <span class="seg-tag p1-tag">~4 &ndash; 5 min</span>
+        </div>
+        <ul class="seg-bullets">
+          <li>Singable on first hearing</li>
+          <li>Simple, welcoming, no barriers to join</li>
+        </ul>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="seg-dot p1-dot"></div>
+      <div class="seg-body">
+        <div class="seg-title-row">
+          <span class="seg-label">Upbeat / Lively Pack</span>
+          <span class="seg-tag p1-tag">~8 &ndash; 15 min</span>
+        </div>
+        <ul class="seg-bullets">
+          <li>High energy, clapping, movement</li>
+          <li>Accenting songs sustain the momentum</li>
+        </ul>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="seg-dot p1-dot"></div>
+      <div class="seg-body">
+        <div class="seg-title-row">
+          <span class="seg-label">Chorale Medley</span>
+          <span class="seg-tag p1-tag">~5 &ndash; 10 min</span>
+        </div>
+        <ul class="seg-bullets">
+          <li>Seamless weave of known choruses</li>
+          <li>Congregation stays singing through the transition</li>
+        </ul>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="seg-dot p1-dot"></div>
+      <div class="seg-body">
+        <div class="seg-title-row">
+          <span class="seg-label">Reassuring Closing</span>
+          <span class="seg-tag p1-tag">~3 &ndash; 7 min</span>
+        </div>
+        <ul class="seg-bullets">
+          <li>God&rsquo;s goodness affirmed</li>
+          <li>End with hearts settled with assurance in God</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow">&#8595;</div>
+
+<!-- ═══ PHASE 2 ═══ -->
+<div class="phase-card">
+  <div class="phase-top">
+    <div class="phase-header-row">
+      <div class="phase-header-left">
+        <span class="phase-badge p2-badge">Phase 2</span>
+        <div>
+          <div class="phase-title">The Help</div>
+          <div class="phase-subtitle">God does not leave us to do it alone</div>
+        </div>
+      </div>
+      <div class="phase-time">
+        <div class="time-range p2-time">22 &ndash; 45 min</div>
+        <div class="time-pct">15 &ndash; 30% of service</div>
+      </div>
+    </div>
+    <div class="aim-box p2-aim">
+      <div class="aim-theology">To meet the person who believes God is good but still feels they cannot yield. God does not stand at a distance and demand surrender &mdash; He draws near, cleanses what blocks, and by His Spirit makes the yielding possible. People should leave this phase feeling supported, not pressured, to surrender.</div>
+      <hr class="aim-divider">
+      <div class="aim-musical">Songs here <strong>lean on God as the One who comes to help</strong> &mdash; moving from tender acknowledgement of need, through the relief of forgiveness, to the confidence of being Spirit-equipped. Highlights of the segments are:</div>
+    </div>
+  </div>
+  <div class="segments-area">
+    <div class="seg">
+      <div class="seg-dot p2-dot"></div>
+      <div class="seg-body">
+        <div class="seg-title-row">
+          <span class="seg-label">Repentance</span>
+          <span class="seg-tag p2-tag">~12 &ndash; 22 min</span>
+        </div>
+        <ul class="seg-bullets">
+          <li>Honest space for conviction and confession</li>
+          <li>God&rsquo;s mercy fully received before moving on</li>
+          <li>Accenting songs deepen the moment</li>
+        </ul>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="seg-dot p2-dot"></div>
+      <div class="seg-body">
+        <div class="seg-title-row">
+          <span class="seg-label">Empowerment</span>
+          <span class="seg-tag p2-tag">~10 &ndash; 23 min</span>
+        </div>
+        <ul class="seg-bullets">
+          <li>The Holy Spirit as the One who enables surrender</li>
+          <li>Identity, boldness, strength received &mdash; not self-generated</li>
+          <li>Phase-driver songs carry into Phase 3</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow">&#8595;</div>
+
+<!-- ═══ PHASE 3 ═══ -->
+<div class="phase-card">
+  <div class="phase-top">
+    <div class="phase-header-row">
+      <div class="phase-header-left">
+        <span class="phase-badge p3-badge">Phase 3</span>
+        <div>
+          <div class="phase-title">The Surrender</div>
+          <div class="phase-subtitle">The meat of the service</div>
+        </div>
+      </div>
+      <div class="phase-time">
+        <div class="time-range p3-time">60 &ndash; 82 min</div>
+        <div class="time-pct">40 &ndash; 55% of service</div>
+      </div>
+    </div>
+    <div class="aim-box p3-aim">
+      <div class="aim-theology">The YES is not a single moment &mdash; it is a sustained movement. People do not yield all at once. This phase holds that space long enough for the will to actually break. Nearly half the service lives here because this is where the real transaction between the person and God happens.</div>
+      <hr class="aim-divider">
+      <div class="aim-musical">Songs here <strong>progressively release control to God</strong> &mdash; moving from declaration and invitation into deep, quiet agreement. They are unhurried, Spirit-led, and increasingly personal. Highlights of the segments are:</div>
+    </div>
+  </div>
+  <div class="segments-area">
+    <div class="seg">
+      <div class="seg-dot p3-dot"></div>
+      <div class="seg-body">
+        <div class="seg-title-row">
+          <span class="seg-label">Take Control</span>
+          <span class="seg-tag p3-tag">~25 &ndash; 38 min</span>
+        </div>
+        <ul class="seg-bullets">
+          <li>The invitation &mdash; &ldquo;You lead, You reign&rdquo;</li>
+          <li>Conscious handover of self to God</li>
+          <li>Accenting songs build depth before it settles</li>
+        </ul>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="seg-dot p3-dot"></div>
+      <div class="seg-body">
+        <div class="seg-title-row">
+          <span class="seg-label">Yes</span>
+          <span class="seg-tag p3-tag">~35 &ndash; 44 min</span>
+        </div>
+        <ul class="seg-bullets">
+          <li>The wholehearted response and deep amen</li>
+          <li>Most intimate moment of the entire service</li>
+          <li>Spontaneous and prophetic space opens here</li>
+          <li>Carries the service naturally into Phase 4</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="arrow">&#8595;</div>
+
+<!-- ═══ PHASE 4 ═══ -->
+<div class="phase-card">
+  <div class="phase-top">
+    <div class="phase-header-row">
+      <div class="phase-header-left">
+        <span class="phase-badge p4-badge">Phase 4</span>
+        <div>
+          <div class="phase-title">The Send-Off</div>
+          <div class="phase-subtitle">Bright turn &middot; hot close</div>
+        </div>
+      </div>
+      <div class="phase-time">
+        <div class="time-range p4-time">20 &ndash; 37 min</div>
+        <div class="time-pct">10 &ndash; 25% of service</div>
+      </div>
+    </div>
+    <div class="aim-box p4-aim">
+      <div class="aim-theology">Phase 4 is consequence, not goal. You are not chasing glory &mdash; you are releasing a people who have already said yes. The worship here should feel different: not striving or desperate, but settled and exultant. They leave not because the service ended but because they have somewhere to go.</div>
+      <hr class="aim-divider">
+      <div class="aim-musical">Songs here <strong>celebrate what God has done and who His people now are</strong> &mdash; triumphant, full-voiced, and outward-facing. The energy is earned, not manufactured. Highlights of the segments are:</div>
+    </div>
+  </div>
+  <div class="segments-area">
+    <div class="seg">
+      <div class="seg-dot p4-dot"></div>
+      <div class="seg-body">
+        <div class="seg-title-row">
+          <span class="seg-label">Turn into Brightness</span>
+          <span class="seg-tag p4-tag">~8 &ndash; 17 min</span>
+        </div>
+        <ul class="seg-bullets">
+          <li>Joy flowing from genuine encounter, not performance</li>
+          <li>Pivot from surrender into triumph</li>
+          <li>Accenting songs ride the lift</li>
+        </ul>
+      </div>
+    </div>
+    <div class="seg">
+      <div class="seg-dot p4-dot"></div>
+      <div class="seg-body">
+        <div class="seg-title-row">
+          <span class="seg-label">Hot Closing</span>
+          <span class="seg-tag p4-tag">~12 &ndash; 20 min</span>
+        </div>
+        <ul class="seg-bullets">
+          <li>Loud, full, victorious</li>
+          <li>They leave with fire in them</li>
+          <li>Phase-driver &mdash; unmistakably final</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="doc-footer">
+  Bullets are highlights only &mdash; each phase carries more than what is listed here
+</div>
+
+</body>
+</html>
